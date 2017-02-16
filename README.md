@@ -1,5 +1,5 @@
 # mdl-select
-mdl-select is for Material Design life (https://getmdl.io/index.html, https://github.com/google/material-design-lite).  
+mdl-select is for Material Design lite (https://getmdl.io/index.html, https://github.com/google/material-design-lite).  
 This provides &lt;select&gt; material design.
 
 # Usage
