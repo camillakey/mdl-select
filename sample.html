@@ -11,9 +11,10 @@
     </head>
     <body>
         <form action="#">
+            <p>Standard</p>
             <div class="mdl-select">
                 <select id="select-sample1" name="select-sample1" class="mdl-select__select">
-                    <option class="mdl-select__item" value="value1">value1</option>
+                    <option class="mdl-select__item" value="value1">value1=================================================================</option>
                     <option class="mdl-select__item" value="value2">value2</option>
                     <option class="mdl-select__item" value="value3">value3</option>
                 </select>
@@ -22,18 +23,19 @@
         </form>
 
         <form action="#">
-            <div class="mdl-select mdl-select--floating-label">
+            <p>Without label</p>
+            <div class="mdl-select">
                 <select id="select-sample2" name="select-sample2" class="mdl-select__select">
                     <option class="mdl-select__item" value="value1">value1</option>
                     <option class="mdl-select__item" value="value2">value2</option>
                     <option class="mdl-select__item" value="value3">value3</option>
                 </select>
-                <label for="select-sample2">Please Select...</label>
             </div>
         </form>
-        
+
         <form action="#">
-            <div class="mdl-select mdl-select--full-width">
+            <p>With floating label</p>
+            <div class="mdl-select mdl-select--floating-label">
                 <select id="select-sample3" name="select-sample3" class="mdl-select__select">
                     <option class="mdl-select__item" value="value1">value1</option>
                     <option class="mdl-select__item" value="value2">value2</option>
@@ -42,29 +44,42 @@
                 <label for="select-sample3">Please Select...</label>
             </div>
         </form>
+        
+        <form action="#">
+            <p>Full width</p>
+            <div class="mdl-select mdl-select--full-width">
+                <select id="select-sample4" name="select-sample4" class="mdl-select__select">
+                    <option class="mdl-select__item" value="value1">value1</option>
+                    <option class="mdl-select__item" value="value2">value2</option>
+                    <option class="mdl-select__item" value="value3">value3</option>
+                </select>
+                <label for="select-sample4">Please Select...</label>
+            </div>
+        </form>
 
         <div>
+            <p>With disabled option</p>
             <form action="#">
                 <div class="mdl-select">
-                    <select id="select-sample4" name="select-sample4" class="mdl-select__select">
+                    <select id="select-sample5" name="select-sample5" class="mdl-select__select">
                         <option class="mdl-select__item" value="value1">value1</option>
-                        <option id="select-sample4-option-disabled"
+                        <option id="select-sample5-option-disabled"
                                 class="mdl-select__item" value="value2" disabled>value2</option>
                         <option class="mdl-select__item" value="value3">value3</option>
                     </select>
-                    <label for="select-sample4">Please Select...</label>
+                    <label for="select-sample5">Please Select...</label>
                 </div>
             </form>
 
             <div>
                 <script>
-                    function removeSelectSample4OptionDisabled() {
-                        document.querySelector('#select-sample4-option-disabled').disabled = false;
-                        document.querySelector('#select-sample4').mdlSelect();
+                    function enableSelectSample5Options() {
+                        document.querySelector('#select-sample5-option-disabled').disabled = false;
+                        document.querySelector('#select-sample5').mdlSelect();
                     }
                 </script>
-                <button onclick="removeSelectSample4OptionDisabled()">
-                    Remove disable attribute
+                <button onclick="enableSelectSample5Options()">
+                    Enable option
                 </button>
             </div>
         </div>

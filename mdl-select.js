@@ -19,12 +19,16 @@
     }
 
     function initSelectDiv(selectDiv) {
-        var label = selectDiv.querySelector('label');
         var select = selectDiv.querySelector('select');
         var optionList = select.querySelectorAll('option');
+        var label = selectDiv.querySelector('label');
 
-        label.hidden = true;
+        setClass(selectDiv);
+
         select.hidden = true;
+        if (label != null) {
+            label.hidden = true;
+        }
 
         var selectInput = createSelectInput(select);
         var selectLabel = createSelectLabel(select, label);
@@ -34,7 +38,10 @@
         selectDiv.appendChild(selectLabel);
         selectDiv.appendChild(ulForSelect);
 
-        setClass(selectDiv);
+        if (label == null) {
+            selectDiv.classList.add('is-dirty');
+            selectInput.value = select.options[select.selectedIndex].innerHTML;
+        }
     }
 
     function createSelectInput(select) {
@@ -48,17 +55,16 @@
     }
 
     function createSelectLabel(select, label) {
-        if (label != null) {
-            var selectLabel = document.createElement('label');
-            selectLabel.id = select.id + '-mdl-select-label';
-            selectLabel.setAttribute('for', select.id + '-mdl-select-input');
-            selectLabel.classList.add('mdl-textfield__label');
-            selectLabel.innerHTML = label.innerHTML;
+        var selectLabel = document.createElement('label');
+        selectLabel.id = select.id + '-mdl-select-label';
+        selectLabel.setAttribute('for', select.id + '-mdl-select-input');
+        selectLabel.classList.add('mdl-textfield__label');
 
-            return selectLabel;
-        } else{
-            return null;
+        if (label != null) {
+            selectLabel.innerHTML = label.innerHTML;
         }
+
+        return selectLabel;
     }
 
     function createUlForSelect(selectDiv, select, optionList, selectInput) {
@@ -66,6 +72,7 @@
         ul.id = select.id + '-mdl-select-ul';
         ul.setAttribute('for', select.id + '-mdl-select-input');
         ul.classList.add('mdl-menu', 'mdl-js-menu', 'mdl-menu--bottom-left');
+        ul.style.width = selectDiv.clientWidth + 'px';
 
         optionList.forEach(function(option) {
             var li = document.createElement('li');
