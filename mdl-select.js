@@ -1,100 +1,115 @@
 // MIT License
 
-window.addEventListener('load', function() {
-    initSelect();
-});
-
-function initSelect() {
-    document.querySelectorAll('.mdl-select').forEach(initSelectDiv);
-}
-
-function initSelectDiv(selectDiv) {
-    var label = selectDiv.querySelector('label');
-    var select = selectDiv.querySelector('select');
-    var optionList = select.querySelectorAll('option');
-
-    var hiddenInput = createHiddenInput(select);
-    var selectInput = createSelectInput(select);
-    var selectLabel = createSelectLabel(select, label);
-
-    var ulForSelect = createUlForSelect(selectDiv, select, optionList, hiddenInput, selectInput);
-
-    removeAll(selectDiv);
-
-    selectDiv.appendChild(hiddenInput);
-    selectDiv.appendChild(selectInput);
-    selectDiv.appendChild(selectLabel);
-    selectDiv.appendChild(ulForSelect);
-
-    setClass(selectDiv);
-}
-
-function createHiddenInput(select) {
-    var input = document.createElement('input');
-    input.id = select.id;
-    input.name = select.name;
-    input.type = 'hidden';
-
-    return input;
-}
-
-function createSelectInput(select) {
-    var input = document.createElement('input');
-    input.id = select.id + '-mdl-select';
-    input.type = 'text';
-    input.readOnly = true;
-    input.classList.add('mdl-textfield__input');
-
-    return input;
-}
-
-function createSelectLabel(select, label) {
-    var selectLabel = document.createElement('label');
-    selectLabel.setAttribute('for', select.id  + '-mdl-select');
-    selectLabel.classList.add('mdl-textfield__label');
-    selectLabel.innerHTML = label.innerHTML;
-
-    return selectLabel;
-}
-
-function createUlForSelect(selectDiv, select, optionList, hiddenInput, selectInput) {
-    var ul = document.createElement('ul');
-    ul.setAttribute('for', select.id + '-mdl-select');
-    ul.classList.add('mdl-menu', 'mdl-js-menu', 'mdl-menu--bottom-left');
-
-    optionList.forEach(function(option) {
-        var li = document.createElement('li');
-        li.classList.add('mdl-menu__item');
-        li.innerHTML = option.innerHTML;
-        li.addEventListener('click', function() {
-            selectDiv.classList.add('is-dirty');
-            hiddenInput.value = option.value;
-            selectInput.value = option.innerHTML;
-        });
-
-        ul.appendChild(li);
+(function() {
+    window.addEventListener('load', function() {
+        initSelect();
+        initMdlSelectFunction();
     });
 
-    return ul;
-}
-
-function removeAll(element) {
-    while (element.firstChild) {
-        element.removeChild(element.firstChild);
-    }
-}
-
-function setClass(selectDiv) {
-    var className = 'mdl-textfield mdl-js-textfield';
-
-    if (selectDiv.classList.contains('mdl-select--floating-label')) {
-        className += ' mdl-textfield--floating-label';
+    function initSelect() {
+        document.querySelectorAll('.mdl-select').forEach(initSelectDiv);
     }
 
-    if (selectDiv.classList.contains('mdl-select--full-width')) {
-        className += ' mdl-textfield--full-width';
+    function initMdlSelectFunction() {
+        HTMLSelectElement.prototype.mdlSelect = function() {
+            if (this.parentElement.classList.contains('mdl-select')) {
+                updateOptions(this.parentElement);
+            }
+        };
     }
 
-    selectDiv.className = className;
-}
+    function initSelectDiv(selectDiv) {
+        var label = selectDiv.querySelector('label');
+        var select = selectDiv.querySelector('select');
+        var optionList = select.querySelectorAll('option');
 
+        label.hidden = true;
+        select.hidden = true;
+
+        var selectInput = createSelectInput(select);
+        var selectLabel = createSelectLabel(select, label);
+        var ulForSelect = createUlForSelect(selectDiv, select, optionList, selectInput);
+
+        selectDiv.appendChild(selectInput);
+        selectDiv.appendChild(selectLabel);
+        selectDiv.appendChild(ulForSelect);
+
+        setClass(selectDiv);
+    }
+
+    function createSelectInput(select) {
+        var input = document.createElement('input');
+        input.id = select.id + '-mdl-select-input';
+        input.type = 'text';
+        input.readOnly = true;
+        input.classList.add('mdl-textfield__input');
+
+        return input;
+    }
+
+    function createSelectLabel(select, label) {
+        if (label != null) {
+            var selectLabel = document.createElement('label');
+            selectLabel.id = select.id + '-mdl-select-label';
+            selectLabel.setAttribute('for', select.id + '-mdl-select-input');
+            selectLabel.classList.add('mdl-textfield__label');
+            selectLabel.innerHTML = label.innerHTML;
+
+            return selectLabel;
+        } else{
+            return null;
+        }
+    }
+
+    function createUlForSelect(selectDiv, select, optionList, selectInput) {
+        var ul = document.createElement('ul');
+        ul.id = select.id + '-mdl-select-ul';
+        ul.setAttribute('for', select.id + '-mdl-select-input');
+        ul.classList.add('mdl-menu', 'mdl-js-menu', 'mdl-menu--bottom-left');
+
+        optionList.forEach(function(option) {
+            var li = document.createElement('li');
+            li.classList.add('mdl-menu__item');
+            li.innerHTML = option.innerHTML;
+            li.addEventListener('click', function() {
+                selectDiv.classList.add('is-dirty');
+                select.value = option.value;
+                selectInput.value = option.innerHTML;
+            });
+
+            if (option.disabled) {
+                li.style.display = 'none';
+            }
+
+            ul.appendChild(li);
+        });
+
+        return ul;
+    }
+
+    function setClass(selectDiv) {
+        selectDiv.className += ' mdl-textfield mdl-js-textfield';
+
+        if (selectDiv.classList.contains('mdl-select--floating-label')) {
+            selectDiv.className += ' mdl-textfield--floating-label';
+        }
+
+        if (selectDiv.classList.contains('mdl-select--full-width')) {
+            selectDiv.className += ' mdl-textfield--full-width';
+        }
+    }
+
+    function updateOptions(selectDiv) {
+        var select = selectDiv.querySelector('select');
+        var optionList = select.querySelectorAll('option');
+        var liList = selectDiv.querySelector('#' + select.id + '-mdl-select-ul').querySelectorAll('li');
+
+        for (var i = 0; i < optionList.length && liList.length; i++) {
+            if (optionList[i].disabled) {
+                liList[i].style.display = 'none';
+            } else {
+                liList[i].style.display = '';
+            }
+        }
+    }
+})();

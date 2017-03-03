@@ -42,6 +42,31 @@
                 <label for="select-sample3">Please Select...</label>
             </div>
         </form>
+
+        <div>
+            <form action="#">
+                <div class="mdl-select">
+                    <select id="select-sample4" name="select-sample4" class="mdl-select__select">
+                        <option class="mdl-select__item" value="value1">value1</option>
+                        <option id="select-sample4-option-disabled"
+                                class="mdl-select__item" value="value2" disabled>value2</option>
+                        <option class="mdl-select__item" value="value3">value3</option>
+                    </select>
+                    <label for="select-sample4">Please Select...</label>
+                </div>
+            </form>
+
+            <div>
+                <script>
+                    function removeSelectSample4OptionDisabled() {
+                        document.querySelector('#select-sample4-option-disabled').disabled = false;
+                        document.querySelector('#select-sample4').mdlSelect();
+                    }
+                </script>
+                <button onclick="removeSelectSample4OptionDisabled()">
+                    Remove disable attribute
+                </button>
+            </div>
+        </div>
     </body>
 </html>
-
