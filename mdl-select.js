@@ -1,7 +1,7 @@
 // MIT License
 
 (function() {
-    window.addEventListener('load', function() {
+    window.addEventListener('DOMContentLoaded', function() {
         initSelect();
         initMdlSelectFunction();
     });
