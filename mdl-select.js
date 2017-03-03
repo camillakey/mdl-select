@@ -1,3 +1,5 @@
+// MIT License
+
 window.addEventListener('load', function() {
     initSelect();
 });
@@ -7,15 +9,15 @@ function initSelect() {
 }
 
 function initSelectDiv(selectDiv) {
-    let label = selectDiv.querySelector('label');
-    let select = selectDiv.querySelector('select');
-    let optionList = select.querySelectorAll('option');
+    var label = selectDiv.querySelector('label');
+    var select = selectDiv.querySelector('select');
+    var optionList = select.querySelectorAll('option');
 
-    let hiddenInput = createHiddenInput(select);
-    let selectInput = createSelectInput(select);
-    let selectLabel = createSelectLabel(select, label);
+    var hiddenInput = createHiddenInput(select);
+    var selectInput = createSelectInput(select);
+    var selectLabel = createSelectLabel(select, label);
 
-    let ulForSelect = createUlForSelect(selectDiv, select, optionList, hiddenInput, selectInput);
+    var ulForSelect = createUlForSelect(selectDiv, select, optionList, hiddenInput, selectInput);
 
     removeAll(selectDiv);
 
@@ -24,15 +26,12 @@ function initSelectDiv(selectDiv) {
     selectDiv.appendChild(selectLabel);
     selectDiv.appendChild(ulForSelect);
 
-    if (selectDiv.classList.contains('mdl-select--floating-label')) {
-        selectDiv.className = 'mdl-textfield mdl-js-textfield mdl-textfield--floating-label';
-    } else {
-        selectDiv.className = 'mdl-textfield mdl-js-textfield mdl-select';
-    }
+    setClass(selectDiv);
 }
 
 function createHiddenInput(select) {
-    let input = document.createElement('input');
+    var input = document.createElement('input');
+    input.id = select.id;
     input.name = select.name;
     input.type = 'hidden';
 
@@ -40,8 +39,8 @@ function createHiddenInput(select) {
 }
 
 function createSelectInput(select) {
-    let input = document.createElement('input');
-    input.id = select.id;
+    var input = document.createElement('input');
+    input.id = select.id + '-mdl-select';
     input.type = 'text';
     input.readOnly = true;
     input.classList.add('mdl-textfield__input');
@@ -50,8 +49,8 @@ function createSelectInput(select) {
 }
 
 function createSelectLabel(select, label) {
-    let selectLabel = document.createElement('label');
-    selectLabel.setAttribute('for', select.id);
+    var selectLabel = document.createElement('label');
+    selectLabel.setAttribute('for', select.id  + '-mdl-select');
     selectLabel.classList.add('mdl-textfield__label');
     selectLabel.innerHTML = label.innerHTML;
 
@@ -59,8 +58,8 @@ function createSelectLabel(select, label) {
 }
 
 function createUlForSelect(selectDiv, select, optionList, hiddenInput, selectInput) {
-    let ul = document.createElement('ul');
-    ul.setAttribute('for', select.id);
+    var ul = document.createElement('ul');
+    ul.setAttribute('for', select.id + '-mdl-select');
     ul.classList.add('mdl-menu', 'mdl-js-menu', 'mdl-menu--bottom-left');
 
     optionList.forEach(function(option) {
@@ -83,5 +82,19 @@ function removeAll(element) {
     while (element.firstChild) {
         element.removeChild(element.firstChild);
     }
+}
+
+function setClass(selectDiv) {
+    var className = 'mdl-textfield mdl-js-textfield';
+
+    if (selectDiv.classList.contains('mdl-select--floating-label')) {
+        className += ' mdl-textfield--floating-label';
+    }
+
+    if (selectDiv.classList.contains('mdl-select--full-width')) {
+        className += ' mdl-textfield--full-width';
+    }
+
+    selectDiv.className = className;
 }
 
