@@ -2,6 +2,9 @@
 mdl-select is for Material Design lite (https://getmdl.io/index.html, https://github.com/google/material-design-lite).  
 This provides &lt;select&gt; material design.
 
+# Example
+https://camillakey.github.io/mdl-select/sample.html
+
 # Usage
 First, loads mdl and mdl-select.
 ```html
